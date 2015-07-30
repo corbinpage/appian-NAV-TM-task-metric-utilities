@@ -10,6 +10,7 @@ The NAV_TM Task Metric utilities app is an Appian application that sits on top o
 -Add Button for filter
 -Expand column size of text in the database
 -Add a Feed post after successful/unsuccessful updates
+-Add the different fields collected
 * Appian market
   * App Name: NAV_TM Task Metric Utilities
   * Target Industry: All
@@ -56,7 +57,7 @@ The NAV_TM Task Metric utilities app is an Appian application that sits on top o
 * Groups
   * NAV_TM Administrators - Users in this group have administrator access of the NAV_TM app.
   * NAV_TM All Groups and Users - Users and groups that are members of this group will have their task metrics saved. By default it includes all users and groups in the system via a group membership rule.
-  * NAV_TM_Completed Tasks Report Viewers - Users in this group can view the Completed Tasks Report from the Reports tab.
+  * NAV_TM Historical Task Metrics Report Viewers - Users in this group can view the Completed Tasks Report from the Reports tab.
 * Data
   * NAV_TM_TaskMetric - Task Metrics CDT that is saved to the database.
   * NAV_TM Data Store - Data Store used for the NAV_TM app. You'll need to point the data store to a schema.
