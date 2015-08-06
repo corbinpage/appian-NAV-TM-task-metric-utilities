@@ -1,5 +1,5 @@
-# NAV_TM Task Metric Utilities
-Collects Task metrics in the background and provides beautiful Task Reports to view and interact with the information! Works OOTB with existing applications and in-flight process instances!
+# Task Metric Utilities
+Runs in the background to collect TONS of Appian task metrics and provides beautiful Reports without modifying existing applications!
 
 ![Overview Images](/images/historical-task-metrics-report-overview.png?raw=true "Overview Images")
 
@@ -26,7 +26,7 @@ All task metrics are gathered without changing any existing applications or alte
 5. You're done! Check out your 'Historical Task Metrics Report' from the Reports tab!
 
 ### Dependencies
-* Tested with Appian 7.8+
+* Tested with Appian 7.9+
 * Plugins required:
   * [People Functions - Plug-in](https://forum.appian.com/suite/tempo/records/type/components/item/i0BCLGOdlMUpdGVqT-RV7oRg74uEGJO7MQ8lm4tmJLMp94GacLswVsmKlY5dOs/view/summary)
   * [Appian Common Objects Release 2 Rules and Constants](https://forum.appian.com/suite/rest/a/content/latest/ioBWsQdLlzKy55h821pegJS_aao_bClfn6kaA2885s8CkmBit_JcaRqqZM/o)
@@ -37,7 +37,7 @@ All task metrics are gathered without changing any existing applications or alte
     * The truncation can be avoided by altering the NAV_TM_TaskMetric CDT and revising the NAV_TM_TEXT_COLUMN_MAX_CHARACTERS constant.
   * As task metrics are collected over time, the database table NAV_TM_TaskMetric will need to be tuned for optimal performance.
 * Task Reports
-  * Approximately 10,000-20,000 task metrics are collected at a time.
+  * Approximately 10,000 task metrics are collected at a time.
   * It's recommended that the timer in the 'NAV_TM Save Task Metrics' process model be set to run once a day outside of normal business hours but may be adjusted.
 
 ## Components
