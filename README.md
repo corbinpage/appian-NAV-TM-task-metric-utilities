@@ -39,6 +39,7 @@ All task metrics are gathered without changing any existing applications or alte
 * Task Reports
   * Approximately 10,000 task metrics are collected at a time.
   * It's recommended that the timer in the 'NAV_TM Save Task Metrics' process model be set to run once a day outside of normal business hours but may be adjusted.
+  * For simplicity, the shortest duration unit is 1 min.
 
 ## Components
 ### Task Metric Reports
@@ -47,7 +48,6 @@ All task metrics are gathered without changing any existing applications or alte
 * Task completion duration (pie chart)
 * Lag and Work time (stacked bar chart)
 * Filters
-  * Selected Task
   * Original Assginee(s)
   * Completed (within)
   * Completed By
