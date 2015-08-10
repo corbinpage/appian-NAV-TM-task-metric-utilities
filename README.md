@@ -1,14 +1,12 @@
 # Task Metric Utilities
-Runs in the background to collect TONS of Appian task metrics and provides beautiful Reports without modifying existing applications!
+Runs in the background to collect Appian task metrics and provides beautiful reports without modifying existing applications!
 
 ![Overview Images](/images/historical-task-metrics-report-overview.png?raw=true "Overview Images")
 
 ## Overview
-The NAV_TM Task Metric utilities app is an Appian application that sits on top of existing applications and collects metrics on all tasks in the system. Beautiful, dynamic task reports are included with the app so you can be up and running in minutes without touching any SAIL yourself! 
+The Task Metric Utilities app sits on top of existing Appian applications and collects task metrics in the background to provide beautiful reports for interacting with task data. It works right out of the box with existing applications and looks great for managers and executives!
 
-The app collects a TON of task metrics in the background so that custom reports can be built on top of the dataset as well, incorporating pertinent business logic for your managers and executives! 
-
-All task metrics are gathered without changing any existing applications or altering process archival settings and are stored safely in an RDBMS of your choosing.
+The main process model runs on a timer to query all tasks in the system and save important metrics to the database. No need to worry about process archival times or running portal reports anymore. The app includes a Historical Task Metrics report for immediate use and is flexible enough to customize with existing business logic.
 
 ## Additional Screenshots
 
@@ -27,9 +25,10 @@ All task metrics are gathered without changing any existing applications or alte
 
 ### Dependencies
 * Tested with Appian 7.9+
+* [Appian Common Objects Release 2 Rules and Constants](https://forum.appian.com/suite/rest/a/content/latest/ioBWsQdLlzKy55h821pegJS_aao_bClfn6kaA2885s8CkmBit_JcaRqqZM/o)
 * Plugins required:
   * [People Functions - Plug-in](https://forum.appian.com/suite/tempo/records/type/components/item/i0BCLGOdlMUpdGVqT-RV7oRg74uEGJO7MQ8lm4tmJLMp94GacLswVsmKlY5dOs/view/summary)
-  * [Appian Common Objects Release 2 Rules and Constants](https://forum.appian.com/suite/rest/a/content/latest/ioBWsQdLlzKy55h821pegJS_aao_bClfn6kaA2885s8CkmBit_JcaRqqZM/o)
+
 
 ### Constraints
 * Database 
