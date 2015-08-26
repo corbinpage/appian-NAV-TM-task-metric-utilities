@@ -38,7 +38,7 @@ The main process model runs on a timer to query all tasks in the system and save
 * Task Reports
   * Approximately 10,000 task metrics are collected at a time.
   * It's recommended that the timer in the 'NAV_TM Save Task Metrics' process model be set to run once a day outside of normal business hours but may be adjusted.
-  * For simplicity, the shortest duration unit is 1 min.
+  * For simplicity, the shortest duration unit is 1 minute.
 
 ## Components
 ### Task Metric Reports
@@ -47,7 +47,7 @@ The main process model runs on a timer to query all tasks in the system and save
 * Task completion duration (pie chart)
 * Lag and Work time (stacked bar chart)
 * Filters
-  * Original Assginee(s)
+  * Original Assignee(s)
   * Completed (within)
   * Completed By
 
@@ -55,7 +55,7 @@ The main process model runs on a timer to query all tasks in the system and save
 ### Saving Task Metrics
 * **NAV_TM Save Task Metrics Process Model** - Batch process that runs periodically to query the system for all tasks and saves them to the database.
 * **Groups**
-  * *NAV_TM Administrators* - Users in this group have administrator access of the NAV_TM app.
+  * *NAV_TM Administrators* - Users in this group have administrator access to the NAV_TM app.
   * *NAV_TM All Groups and Users* - Users and groups that are members of this group will have their task metrics saved. By default it includes all users and groups in the system via a group membership rule.
   * *NAV_TM Historical Task Metrics Report Viewers* - Users in this group can view the Historical Task Metrics Report from the Reports tab.
 * **Data**
