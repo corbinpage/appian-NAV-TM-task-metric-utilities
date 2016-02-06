@@ -16,6 +16,20 @@ The main process model runs on a timer to query all tasks in the system and save
 
 ![Task Metrics Grid](/images/historical-task-metrics-report-grid.png?raw=true "Task Metrics Grid")
 
+## Version 2 Release Note
+Release notes can be found [here](https://github.com/corbinpage/appian-NAV-TM-task-metric-utilities/releases).
+
+## Components
+### Task Metric Reports
+* Number of tasks completed by different individuals (bar chart)
+* Most frequently completed tasks (bar chart)
+* Task completion duration (pie chart)
+* Lag and Work time performance grid (and drilldown bar charts)
+* Filters
+  * Original Assignee(s)
+  * Completed (within)
+  * Completed By
+
 ## Install
 1. Import the 'NAV_TM Task Metric Utilities' application.
 2. Review the NAV_TM Data Store, select the appropriate data source, and publish the data store.
@@ -24,32 +38,9 @@ The main process model runs on a timer to query all tasks in the system and save
 5. You're done! Check out your 'Historical Task Metrics Report' from the Reports tab!
 
 ### Dependencies
-* Tested with Appian 7.9+
-* [Appian Common Objects Release 2 Rules and Constants](https://forum.appian.com/suite/rest/a/content/latest/ioBWsQdLlzKy55h821pegJS_aao_bClfn6kaA2885s8CkmBit_JcaRqqZM/o)
+* Tested with Appian 7.11+
 * Plugins required:
   * [People Functions - Plug-in](https://forum.appian.com/suite/tempo/records/type/components/item/i0BCLGOdlMUpdGVqT-RV7oRg74uEGJO7MQ8lm4tmJLMp94GacLswVsmKlY5dOs/view/summary)
-
-
-### Constraints
-* Database 
-  * Process and task names and descriptions will be truncated at 255 characters.
-    * The truncation can be avoided by altering the NAV_TM_TaskMetric CDT and revising the NAV_TM_TEXT_COLUMN_MAX_CHARACTERS constant.
-  * As task metrics are collected over time, the database table NAV_TM_TaskMetric will need to be tuned for optimal performance.
-* Task Reports
-  * Approximately 10,000 task metrics are collected at a time.
-  * It's recommended that the timer in the 'NAV_TM Save Task Metrics' process model be set to run once a day outside of normal business hours but may be adjusted.
-  * For simplicity, the shortest duration unit is 1 minute.
-
-## Components
-### Task Metric Reports
-* Number of tasks completed by different individuals (bar chart)
-* Most frequently completed tasks (bar chart)
-* Task completion duration (pie chart)
-* Lag and Work time (stacked bar chart)
-* Filters
-  * Original Assignee(s)
-  * Completed (within)
-  * Completed By
 
 
 ### Saving Task Metrics
@@ -61,6 +52,16 @@ The main process model runs on a timer to query all tasks in the system and save
 * **Data**
   * *NAV_TM_TaskMetric* - CDT to store Task metric data that is saved to the database.
   * *NAV_TM Data Store* - Data Store used for the NAV_TM app. You'll need to point the data store to a schema of your choice.
+
+### Constraints
+* Database 
+  * Process and task names and descriptions will be truncated at 255 characters.
+    * The truncation can be avoided by altering the NAV_TM_TaskMetric CDT and revising the NAV_TM_TEXT_COLUMN_MAX_CHARACTERS constant.
+  * As task metrics are collected over time, the database table NAV_TM_TaskMetric will need to be tuned for optimal performance.
+* Task Reports
+  * Approximately 10,000 task metrics are collected at a time.
+  * It's recommended that the timer in the 'NAV_TM Save Task Metrics' process model be set to run once a day outside of normal business hours but may be adjusted.
+  * For simplicity, the shortest duration unit is 1 minute.
 
 ## Future Development
 * Reports for Active Tasks
