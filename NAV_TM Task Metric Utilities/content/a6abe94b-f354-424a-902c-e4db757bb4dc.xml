@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_completedTasksMetricsReport</name>
+        <uuid>a6abe94b-f354-424a-902c-e4db757bb4dc</uuid>
+        <description>The report showing metrics for completed tasks. </description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>=load(
+  local!reportLogicalExpression: #&quot;d54f9a58-6a36-4078-ac20-0aeddf387b7c&quot;(
+    null,
+    null,
+    null,
+    null
+  ),
+  #&quot;SYSTEM_SYSRULES_dashboardLayout&quot;(
+    firstColumnContents: {
+      #&quot;8eac7b7d-5528-473f-8893-e3bf4614166a&quot;(local!reportLogicalExpression),
+      #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+        label: &quot;Who's doing What:&quot;,        
+        firstColumnContents: {
+          #&quot;a435288b-6ecf-4f26-9780-4a1ca126d1fe&quot;(local!reportLogicalExpression)
+        },   
+        secondColumnContents: {
+          #&quot;412c0f91-321a-4da7-b17d-f24af91ddeb9&quot;(local!reportLogicalExpression)
+        },
+        isCollapsible: true
+      ),
+      #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+        label: &quot;Bottleneck Indicators:&quot;,
+        firstColumnContents: {
+          #&quot;b61c6b7a-b8f4-418c-a741-eb0343739175&quot;(local!reportLogicalExpression)
+        },   
+        secondColumnContents: {
+          #&quot;_a-0000dc71-e19a-8000-9ba2-011c48011c48_6380&quot;(local!reportLogicalExpression)
+        },
+        isCollapsible: true
+      ),
+      #&quot;7b103f18-7fa6-424f-90be-bcff147bfd80&quot;(local!reportLogicalExpression)
+    },
+    secondColumnContents: {}
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

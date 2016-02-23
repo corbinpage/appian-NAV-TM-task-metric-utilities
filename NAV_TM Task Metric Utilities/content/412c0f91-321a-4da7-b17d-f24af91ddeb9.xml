@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_taskCountByOwnerBarChart</name>
+        <uuid>412c0f91-321a-4da7-b17d-f24af91ddeb9</uuid>
+        <description>Bar chart showing number of tasks completed by Task Owner</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!chartLabel: &quot;Task count by User&quot;,
+  local!chartInstructions: &quot;Users with the highest number of tasks completed given the filtering criteria.&quot;, 
+  local!pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex: 1,
+    batchSize: 10,
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field: &quot;id&quot;,
+      ascending: false
+    )
+  ),
+  with(
+    local!datasubset: #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+      entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,
+      query: #&quot;SYSTEM_SYSRULES_query&quot;(
+        aggregation: #&quot;SYSTEM_SYSRULES_queryAggregation&quot;(aggregationColumns: {
+          #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(field: &quot;taskOwner&quot;, isGrouping: true),
+          #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(field: &quot;id&quot;, aggregationFunction: &quot;COUNT&quot;),
+        }),
+        logicalExpression: ri!reportlogicalExpression,
+        pagingInfo: local!pagingInfo
+      )
+    ),
+    if(
+      or(
+        local!datasubset.totalCount &lt;= 0,
+        #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(
+          local!datasubset.data
+        )
+      ),
+      {
+        #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+          label: local!chartLabel,
+          labelPosition: &quot;ABOVE&quot;,
+          value: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30935&quot;,
+          readOnly: true
+        )
+      },
+      {
+        #&quot;SYSTEM_SYSRULES_barChartField&quot;(
+          label: local!chartLabel,
+          labelPosition: &quot;ABOVE&quot;,
+          instructions: local!chartInstructions,
+          categories: {
+            apply(#&quot;0c91cb01-7278-4a58-a965-ccfaf368ae4f&quot;,index(local!datasubset.data, &quot;taskOwner&quot;, null))
+          },
+          series: {
+            #&quot;SYSTEM_SYSRULES_chartSeries&quot;(
+              label: &quot;Tasks&quot;,
+              data: index(local!datasubset.data, &quot;id&quot;, null),
+              color: &quot;AMBER&quot;
+            )
+          },
+          yAxisTitle: &quot;Number of Tasks completed&quot;,
+          showLegend: false,
+          showDataLabels: true,
+          showTooltips: true
+        )
+      }
+    )
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>reportlogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

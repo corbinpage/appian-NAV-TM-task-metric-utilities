@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_taskCompletionDurationPieChart</name>
+        <uuid>b61c6b7a-b8f4-418c-a741-eb0343739175</uuid>
+        <description>Pie chart showing the percentage of tasks completed within certain periods of time</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(&#xD;
+  local!chartLabel: &quot;Task Completion time:&quot;,&#xD;
+  local!chartInstructions: &quot;Percentage of Tasks completed within different time intervals. All intervals are mutually exclusive, and each slice is clickable for more information.&quot;,&#xD;
+  local!showGrid: toboolean(false),&#xD;
+  local!minBound: 0,&#xD;
+  local!maxBound: 999999999999,&#xD;
+  local!tempDatasubset,&#xD;
+  local!gridPagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(&#xD;
+    startIndex: 1,&#xD;
+    batchSize: 10,&#xD;
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(&#xD;
+      field: &quot;taskStartTime&quot;,&#xD;
+      ascending: false&#xD;
+    )&#xD;
+  ),&#xD;
+  with(&#xD;
+    /* -------------------------------------------------------------------------- */&#xD;
+    /* 5 total intervals are used by default, but they can be altered as needed. */&#xD;
+    /*      -Less than 1 day                                                      */&#xD;
+    /*      -Less than 3 days                                                     */&#xD;
+    /*      -Less than 1 week                                                     */&#xD;
+    /*      -Less than 1 month                                                    */&#xD;
+    /*      -Longer than a month                                                  */&#xD;
+    /* -------------------------------------------------------------------------- */&#xD;
+    local!taskMetricTotals: #&quot;af047e86-62f8-4754-b7be-c1fda0b153c5&quot;(ri!reportLogicalExpression,topaginginfo(1,0)),&#xD;
+    {&#xD;
+      if(not(local!showGrid),&#xD;
+        {&#xD;
+          #&quot;SYSTEM_SYSRULES_pieChartField&quot;(&#xD;
+            label: local!chartLabel,&#xD;
+            labelPosition: &quot;ABOVE&quot;,&#xD;
+            instructions: local!chartInstructions,&#xD;
+            series: {&#xD;
+              #&quot;SYSTEM_SYSRULES_chartSeries&quot;(&#xD;
+                label: &quot;&lt;1 day&quot;,&#xD;
+                data: local!taskMetricTotals[1],&#xD;
+                links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(&#xD;
+                        value: true,&#xD;
+                        saveInto: {&#xD;
+                          local!showGrid,&#xD;
+                          a!save(local!minBound, 0),          /* Absolute lower bound */&#xD;
+                          a!save(local!maxBound, 60 * 24)     /* Minutes in a day     */&#xD;
+                        }&#xD;
+                      ),&#xD;
+                color: &quot;GREEN&quot;&#xD;
+              ),&#xD;
+              #&quot;SYSTEM_SYSRULES_chartSeries&quot;(&#xD;
+                label: &quot;&lt;3 days&quot;,&#xD;
+                data: local!taskMetricTotals[2],&#xD;
+                links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(&#xD;
+                        value: true,&#xD;
+                        saveInto: {&#xD;
+                          local!showGrid,&#xD;
+                          a!save(local!minBound, 60 * 24),      /* Minutes in a day  */&#xD;
+                          a!save(local!maxBound, 60 * 24 * 3),  /* Minutes in 3 days */&#xD;
+                        }&#xD;
+                      ), &#xD;
+                color: &quot;YELLOW&quot;&#xD;
+              ),&#xD;
+              #&quot;SYSTEM_SYSRULES_chartSeries&quot;(&#xD;
+                label: &quot;&lt;1 week&quot;,&#xD;
+                data: local!taskMetricTotals[3],&#xD;
+                links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(&#xD;
+                        value: true,&#xD;
+                        saveInto: {&#xD;
+                          local!showGrid,&#xD;
+                          a!save(local!minBound, 60 * 24 * 3),  /* Minutes in 3 days */&#xD;
+                          a!save(local!maxBound, 60 * 24 * 7)   /* Minutes in a week */&#xD;
+                        }&#xD;
+                      ), &#xD;
+                color: &quot;BLUEGRAY&quot;&#xD;
+              ),&#xD;
+              #&quot;SYSTEM_SYSRULES_chartSeries&quot;(&#xD;
+                label: &quot;&lt;1 month&quot;,&#xD;
+                data: local!taskMetricTotals[4],&#xD;
+                links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(&#xD;
+                        value: true,&#xD;
+                        saveInto: {&#xD;
+                          local!showGrid,&#xD;
+                          a!save(local!minBound, 60 * 24 * 7),  /* Minutes in a week          */&#xD;
+                          a!save(local!maxBound, 60 * 24 * 30), /* Approx. minutes in a month */&#xD;
+                        }&#xD;
+                      ),&#xD;
+                color: &quot;PURPLE&quot;&#xD;
+              ),&#xD;
+              #&quot;SYSTEM_SYSRULES_chartSeries&quot;(&#xD;
+                label: &quot;&gt;1 month&quot;,&#xD;
+                data: local!taskMetricTotals[5],&#xD;
+                links: #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(&#xD;
+                        value: true,&#xD;
+                        saveInto: {&#xD;
+                          local!showGrid,&#xD;
+                          a!save(local!minBound, 60 * 24 * 30), /* Approx. minutes in a month */&#xD;
+                          a!save(local!maxBound, 999999999999), /* Absolute upper bound       */&#xD;
+                        }&#xD;
+                      ),&#xD;
+                color: &quot;VIOLETRED&quot;&#xD;
+              )&#xD;
+            },&#xD;
+            showDataLabels: true,&#xD;
+            showTooltips: true&#xD;
+          )&#xD;
+        },&#xD;
+        #&quot;1aa5e0ea-3a9e-4b61-a6f5-929280622522&quot;(          &#xD;
+          taskMetricDatasubset: local!tempDatasubset,&#xD;
+          pagingInfo: local!gridPagingInfo,&#xD;
+          reportLogicalExpression: ri!reportLogicalExpression,&#xD;
+          minBound: local!minBound,&#xD;
+          maxBound: local!maxBound,&#xD;
+          showGrid: local!showGrid,&#xD;
+          chartLabel: local!chartLabel,&#xD;
+          chartInstructions: local!chartInstructions&#xD;
+        ) &#xD;
+      )&#xD;
+    }&#xD;
+  )&#xD;
+)</definition>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

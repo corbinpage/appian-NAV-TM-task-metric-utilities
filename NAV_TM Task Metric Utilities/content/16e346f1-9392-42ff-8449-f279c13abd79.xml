@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_taskLagWorkDurationBarChart</name>
+        <uuid>16e346f1-9392-42ff-8449-f279c13abd79</uuid>
+        <description>DEPRECATED Stacked bar chart showing the lag time and work time for selected tasks.</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!chartLabel: &quot;Average Lag Time and Work Time for selected Tasks&quot;,
+  local!chartInstructions: &quot;Lag time is the absolute delay between assignment and acceptance of the task, while Work time is the absolute elapsed time between acceptance and completion of the task.&quot;, 
+  local!pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex: 1,
+    batchSize: 10,
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field: &quot;lagDurationMinutes&quot;,
+      ascending: false
+    )
+  ),
+  with(
+    local!datasubset: #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+      entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,
+      query: #&quot;SYSTEM_SYSRULES_query&quot;(
+        aggregation: #&quot;SYSTEM_SYSRULES_queryAggregation&quot;(aggregationColumns: {
+          #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(field: &quot;taskName&quot;, isGrouping: true),
+          #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(field: &quot;lagDurationMinutes&quot;, aggregationFunction: &quot;AVG&quot;),
+          #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(field: &quot;workDurationMinutes&quot;, aggregationFunction: &quot;AVG&quot;)
+        }),
+        logicalExpression: ri!reportLogicalExpression,
+        pagingInfo: local!pagingInfo
+      )
+    ),
+    if(
+      or(
+        local!datasubset.totalCount &lt; 1,
+        #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(
+          local!datasubset.data
+        )
+      ),
+      {
+        #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+          label: local!chartLabel,
+          labelPosition: &quot;ABOVE&quot;,
+          value: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30935&quot;,
+          readOnly: true
+        )
+      },
+      {
+        #&quot;SYSTEM_SYSRULES_barChartField&quot;(
+          label: local!chartLabel,
+          labelPosition: &quot;ABOVE&quot;,
+          instructions: local!chartInstructions,
+          categories: {
+            index(local!datasubset.data, &quot;taskName&quot;, null)
+          },
+          series: {
+            #&quot;SYSTEM_SYSRULES_chartSeries&quot;(
+              label: &quot;Avg Lag Time&quot;,
+              data: round(todecimal(index(local!datasubset.data, &quot;lagDurationMinutes&quot;, 0))/1440.0),
+              color: &quot;VIOLETRED&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_chartSeries&quot;(
+              label: &quot;Avg Work Time&quot;,
+              data: round(todecimal(index(local!datasubset.data, &quot;workDurationMinutes&quot;, 0))/1440.0),
+              color: &quot;GOLD&quot;
+            )
+          },
+          yAxisTitle: &quot;Days&quot;,
+          stacking: &quot;NORMAL&quot;,
+          showLegend: true,
+          showTooltips: true,
+          allowDecimalAxisLabels: true
+        )
+      }
+    )
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>reportLogicalExpression</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

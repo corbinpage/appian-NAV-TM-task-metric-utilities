@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_returnPerformanceIconForValue</name>
+        <uuid>_a-0000dc71-e19a-8000-9ba2-011c48011c48_6388</uuid>
+        <description>Returns a performance icon, given a value and certain tiers of values.</description>
+        <parentUuid>_a-0000db6c-eae6-8000-927a-010000010000_48231</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/* For this rule, the lower the values, the better.*/
+
+if(
+  ri!value &gt;= ri!firstTierMin,
+  #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+    &quot;FACE_SAD&quot;
+  ),
+  if(
+    ri!value &gt;= ri!SecondTierMin,
+    #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+      &quot;FACE_INDIFFERENT&quot;
+    ),
+    #&quot;SYSTEM_SYSRULES_iconIndicator&quot;(
+      &quot;FACE_HAPPY&quot;
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>firstTierMin</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>secondTierMin</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

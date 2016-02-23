@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_lagWorkTimeGridToggle</name>
+        <uuid>_a-0000dc71-e19a-8000-9ba2-011c48011c48_6380</uuid>
+        <description>SAIL Interface for historical Lag &amp; Work Time grid and bar charts.</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= load(
+  local!selectedAssignee: &quot;&quot;,
+  local!displayLagChart,
+  local!taskSummaryPagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex: 1,
+    batchSize: 12,
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field: &quot;id&quot;,
+      ascending: false
+    )
+  ),
+  if(
+    #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_950&quot;(
+      local!selectedAssignee
+    ),
+    {
+      with(
+        local!datasubset: #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+          entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,
+          query: #&quot;SYSTEM_SYSRULES_query&quot;(
+            aggregation: #&quot;SYSTEM_SYSRULES_queryAggregation&quot;(
+              aggregationColumns: {
+                #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(
+                  field: &quot;taskAssignees&quot;,
+                  isGrouping: true
+                ),
+                #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(
+                  field: &quot;workDurationMinutes&quot;,
+                  aggregationFunction: &quot;AVG&quot;
+                ),
+                #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(
+                  field: &quot;lagDurationMinutes&quot;,
+                  aggregationFunction: &quot;AVG&quot;
+                ),
+                #&quot;SYSTEM_SYSRULES_queryAggregationColumn&quot;(
+                  field: &quot;id&quot;,
+                  aggregationFunction: &quot;COUNT&quot;
+                )
+              }
+            ),
+            logicalExpression: ri!reportLogicalExpression,
+            pagingInfo: local!taskSummaryPagingInfo
+          )
+        ),
+        if(
+          or(
+            local!datasubset.totalCount &lt;= 0,
+            #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(
+              local!datasubset.data
+            )
+          ),
+          {
+            #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+              labelPosition: &quot;ABOVE&quot;,
+              value: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30935&quot;,
+              readOnly: true
+            )
+          },
+          {
+            #&quot;SYSTEM_SYSRULES_gridField&quot;(
+              /*label: &quot;Task Assignee Summary&quot;,*/
+              /*labelPosition: &quot;ABOVE&quot;,*/
+              instructions: &quot;Lag time is the absolute delay between assignment and acceptance of the task, while Work time is the absolute elapsed time between acceptance and completion of the task.&quot;,
+              totalCount: local!datasubset.totalCount,
+              columns: {
+                #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                  label: &quot;Assignee&quot;,
+                  field: &quot;taskAssignees&quot;,
+                  data: apply(
+                    #&quot;0c91cb01-7278-4a58-a965-ccfaf368ae4f&quot;,
+                    index(
+                      local!datasubset.data,
+                      &quot;taskAssignees&quot;,
+                      {}
+                    )
+                  )
+                ),
+                #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                  label: &quot;Total # of Tasks&quot;,
+                  field: &quot;id&quot;,
+                  data: index(
+                    local!datasubset.data,
+                    &quot;id&quot;,
+                    {}
+                  )
+                ),
+                #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                  label: &quot;Avg Lag Time&quot;,
+                  field: &quot;lagDurationMinutes&quot;,
+                  data: apply(
+                    #&quot;_a-0000dc71-e19a-8000-9ba2-011c48011c48_6386&quot;,
+                    index(
+                      local!datasubset.data,
+                      &quot;lagDurationMinutes&quot;,
+                      {}
+                    )
+                  ),
+                  links: apply(
+                    #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+                      value: _,
+                      saveInto: {
+                        a!save(
+                          local!selectedAssignee,
+                          null
+                        ),
+                        a!save(
+                          local!selectedAssignee,
+                          save!value
+                        ),
+                        a!save(
+                          local!displayLagChart,
+                          true
+                        )
+                      }
+                    ),
+                    local!datasubset.data.taskAssignees
+                  )
+                ),
+                #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                  label: &quot;Avg Work Time&quot;,
+                  field: &quot;workDurationMinutes&quot;,
+                  data: apply(
+                    #&quot;_a-0000dc71-e19a-8000-9ba2-011c48011c48_6386&quot;,
+                    index(
+                      local!datasubset.data,
+                      &quot;workDurationMinutes&quot;,
+                      {}
+                    )
+                  ),
+                  links: apply(
+                    #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+                      value: _,
+                      saveInto: {
+                        a!save(
+                          local!selectedAssignee,
+                          save!value
+                        ),
+                        a!save(
+                          local!displayLagChart,
+                          false
+                        )
+                      }
+                    ),
+                    local!datasubset.data.taskAssignees
+                  )
+                ),
+                #&quot;SYSTEM_SYSRULES_gridImageColumn&quot;(
+                  label: &quot;Performance&quot;,
+                  field: &quot;lagDurationMinutes&quot;,
+                  data: apply(
+                    #&quot;SYSTEM_SYSRULES_documentImage&quot;(
+                      document: _
+                    ),
+                    apply(
+                      #&quot;_a-0000dc71-e19a-8000-9ba2-011c48011c48_6388&quot;(
+                        value: _,
+                        firstTierMin: _,
+                        secondTierMin: _
+                      ),
+                      merge(
+                        round(
+                          todecimal(
+                            local!datasubset.data.lagDurationMinutes
+                          ) / 1440.0
+                        ),
+                        repeat(
+                          length(
+                            local!datasubset.data
+                          ),
+                          3
+                        ),
+                        repeat(
+                          length(
+                            local!datasubset.data
+                          ),
+                          1
+                        )
+                      )
+                    )
+                  ),
+                  size: &quot;ICON&quot;
+                )
+              },
+              value: local!taskSummaryPagingInfo,
+              saveInto: local!taskSummaryPagingInfo,
+              selection: false()
+            )
+          }
+        )
+      )
+    },
+    {
+      if(
+        local!displayLagChart,
+        #&quot;_a-0000dc71-e19a-8000-9ba2-011c48011c48_6390&quot;(
+          ri!reportLogicalExpression,
+          local!selectedAssignee
+        ),
+        #&quot;_a-0000dc71-e19a-8000-9ba2-011c48011c48_6391&quot;(
+          ri!reportLogicalExpression,
+          local!selectedAssignee
+        )
+      ),
+      #&quot;SYSTEM_SYSRULES_linkField&quot;(
+        links: {
+          #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+            label: &quot;&lt;&lt; Back&quot;,
+            value: &quot;&quot;,
+            saveInto: local!selectedAssignee
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>reportLogicalExpression</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

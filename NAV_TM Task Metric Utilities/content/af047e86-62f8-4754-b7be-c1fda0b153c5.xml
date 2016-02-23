@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_queryTaskCompletionDurationIntervalSeries</name>
+        <uuid>af047e86-62f8-4754-b7be-c1fda0b153c5</uuid>
+        <description>Queries task metrics by completion duration interval and returns the values in an array.</description>
+        <parentUuid>_a-0000db6c-eae6-8000-927a-010000010000_48231</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{&#xD;
+      #&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+        entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,&#xD;
+        query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+          selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+            columns: {&#xD;
+              #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+                field: &quot;id&quot;&#xD;
+              )&#xD;
+            }&#xD;
+          ),&#xD;
+          logicalExpression: #&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(&#xD;
+              operator: &quot;AND&quot;,&#xD;
+              logicalExpressions: ri!reportLogicalExpression,&#xD;
+              filters: {&#xD;
+                #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+                  field: &quot;completionDurationMinutes&quot;,&#xD;
+                  operator: &quot;between&quot;,&#xD;
+                  /* Absolute lower bound */&#xD;
+                  /* Minutes in a day */&#xD;
+                  value: {0, 60 * 24}&#xD;
+                )&#xD;
+              }&#xD;
+            ),&#xD;
+          pagingInfo: ri!pagingInfo&#xD;
+        )&#xD;
+      ).totalCount,&#xD;
+      #&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+        entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,&#xD;
+        query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+          selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+            columns: {&#xD;
+              #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+                field: &quot;id&quot;&#xD;
+              )&#xD;
+            }&#xD;
+          ),&#xD;
+          logicalExpression: #&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(&#xD;
+              operator: &quot;AND&quot;,&#xD;
+              logicalExpressions: ri!reportLogicalExpression,&#xD;
+              filters: {&#xD;
+                #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+                  field: &quot;completionDurationMinutes&quot;,&#xD;
+                  operator: &quot;between&quot;,&#xD;
+                  /* Minutes in a day */&#xD;
+                  /* Minutes in 3 days */&#xD;
+                  value: {60 * 24, 60 * 24 * 3}&#xD;
+                )&#xD;
+              }&#xD;
+            ),&#xD;
+          pagingInfo: ri!pagingInfo&#xD;
+        )&#xD;
+      ).totalCount,&#xD;
+      #&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+        entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,&#xD;
+        query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+          selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+            columns: {&#xD;
+              #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+                field: &quot;id&quot;&#xD;
+              )&#xD;
+            }&#xD;
+          ),&#xD;
+          logicalExpression: #&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(&#xD;
+              operator: &quot;AND&quot;,&#xD;
+              logicalExpressions: ri!reportLogicalExpression,&#xD;
+              filters: {&#xD;
+                #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+                  field: &quot;completionDurationMinutes&quot;,&#xD;
+                  operator: &quot;between&quot;,&#xD;
+                  /* Minutes in 3 days */&#xD;
+                  /* Minutes in a week */&#xD;
+                  value: {60 * 24 * 3, 60 * 24 * 7}&#xD;
+                )&#xD;
+              }&#xD;
+            ),&#xD;
+          pagingInfo: ri!pagingInfo&#xD;
+        )&#xD;
+      ).totalCount,&#xD;
+      #&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+        entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,&#xD;
+        query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+          selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+            columns: {&#xD;
+              #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+                field: &quot;id&quot;&#xD;
+              )&#xD;
+            }&#xD;
+          ),&#xD;
+          logicalExpression: #&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(&#xD;
+              operator: &quot;AND&quot;,&#xD;
+              logicalExpressions: ri!reportLogicalExpression,&#xD;
+              filters: {&#xD;
+                #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+                  field: &quot;completionDurationMinutes&quot;,&#xD;
+                  operator: &quot;between&quot;,&#xD;
+                  /* Minutes in a week */&#xD;
+                  /* Approx. minutes in a month */&#xD;
+                  value: {60 * 24 * 7, 60 * 24 * 30}&#xD;
+                )&#xD;
+              }&#xD;
+            ),&#xD;
+          pagingInfo: ri!pagingInfo&#xD;
+        )&#xD;
+      ).totalCount,&#xD;
+      #&quot;SYSTEM_SYSRULES_queryEntity&quot;(&#xD;
+        entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,&#xD;
+        query: #&quot;SYSTEM_SYSRULES_query&quot;(&#xD;
+          selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(&#xD;
+            columns: {&#xD;
+              #&quot;SYSTEM_SYSRULES_queryColumn&quot;(&#xD;
+                field: &quot;id&quot;&#xD;
+              )&#xD;
+            }&#xD;
+          ),&#xD;
+          logicalExpression: #&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(&#xD;
+              operator: &quot;AND&quot;,&#xD;
+              logicalExpressions: ri!reportLogicalExpression,&#xD;
+              filters: {&#xD;
+                #&quot;SYSTEM_SYSRULES_queryFilter&quot;(&#xD;
+                  field: &quot;completionDurationMinutes&quot;,&#xD;
+                  operator: &quot;between&quot;,&#xD;
+                  /* Approx. minutes in a month */&#xD;
+                  /* Absolute upper bound */&#xD;
+                  value: {60 * 24 * 30, 999999999999}&#xD;
+                )&#xD;
+              }&#xD;
+            ),&#xD;
+          pagingInfo: ri!pagingInfo&#xD;
+        )&#xD;
+      ).totalCount&#xD;
+    }</definition>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

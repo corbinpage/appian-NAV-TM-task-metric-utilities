@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_displayFormattedDurationMinutes</name>
+        <uuid>_a-0000dc71-e19a-8000-9ba2-011c48011c48_6386</uuid>
+        <description>Given a decimal value of a duration in minutes, this rule returns the human readable text for the equivalent.</description>
+        <parentUuid>_a-0000db6c-eae6-8000-927a-010000010000_48231</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= if(
+  or(
+  #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_950&quot;(
+    ri!durationMinutes
+  ),
+  ri!durationMinutes &lt;= 1
+  ),
+  &quot;&lt;1 min&quot;,
+  with(
+    local!days: if(floor(ri!durationMinutes/1440) &gt;= 1,floor(ri!durationMinutes/1440),0),
+    ri!durationMinutes: ri!durationMinutes - (1440 * local!days),
+    local!hours: if(floor(ri!durationMinutes/60) &gt;= 1,floor(ri!durationMinutes/60),0),
+    local!minutes: ri!durationMinutes - (60 * local!hours),
+    if(local!days &lt;= 0,&quot;&quot;,local!days &amp; &quot; days, &quot;)&amp;
+    if(and(local!hours &lt;= 0,local!days &lt;= 0),&quot;&quot;,local!hours &amp; &quot; hrs, &quot;)&amp;
+    floor(local!minutes) &amp; &quot; mins&quot;
+  )
+)</definition>
+        <namedTypedValue>
+            <name>durationMinutes</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

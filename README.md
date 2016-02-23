@@ -33,8 +33,7 @@ Release notes can be found [here](https://github.com/corbinpage/appian-NAV-TM-ta
 ## Install
 1. Import the 'NAV_TM Task Metric Utilities' application.
 2. Review the NAV_TM Data Store, select the appropriate data source, and publish the data store.
-3. Set the timer on the 'NAV_TM Save Task Metrics' process model.
-4. Run the process at least once.
+3. Run the process, which should be automatic.
 5. You're done! Check out your 'Historical Task Metrics Report' from the Reports tab!
 
 ### Dependencies
@@ -44,7 +43,7 @@ Release notes can be found [here](https://github.com/corbinpage/appian-NAV-TM-ta
 
 
 ### Saving Task Metrics
-* **NAV_TM Save Task Metrics Process Model** - Batch process that runs periodically to query the system for all tasks and saves them to the database.
+* **Process Models** - Batch process and subprocess that runs periodically to query the system for all tasks and saves them to the database.
 * **Groups**
   * *NAV_TM Administrators* - Users in this group have administrator access to the NAV_TM app.
   * *NAV_TM All Groups and Users* - Users and groups that are members of this group will have their task metrics saved. By default it includes all users and groups in the system via a group membership rule.

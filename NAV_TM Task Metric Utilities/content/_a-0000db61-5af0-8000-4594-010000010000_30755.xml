@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_getTotalMinutesForDuration</name>
+        <uuid>_a-0000db61-5af0-8000-4594-010000010000_30755</uuid>
+        <description>Given a duration, this rule returns the total number of minutes.</description>
+        <parentUuid>_a-0000db6c-eae6-8000-927a-010000010000_48230</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= if(
+  #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_950&quot;(
+    ri!duration
+  ),
+  todecimal(
+    1
+  ),
+  with(
+    local!split1: split(
+      tostring(
+        ri!duration
+      ),
+      &quot;::&quot;
+    ),
+    local!split2: split(
+      local!split1[2],
+      &quot;:&quot;
+    ),
+    local!days: tointeger(
+      local!split1[1]
+    ),
+    local!hours: tointeger(
+      local!split2[1]
+    ),
+    local!minutes: tointeger(
+      local!split2[2]
+    ),
+    if(
+      local!days + local!hours + local!minutes &lt;= 0,
+      todecimal(1),
+      todecimal(
+        (
+          local!days * 1440
+        ) + (
+          local!hours * 60
+        ) + (
+          local!minutes
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>duration</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

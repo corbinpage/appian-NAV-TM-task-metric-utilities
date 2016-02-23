@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_getTaskStatusDisplay</name>
+        <uuid>_a-0000db61-5af0-8000-4594-010000010000_30745</uuid>
+        <description>Returns status as text given the integer value.</description>
+        <parentUuid>_a-0000db6c-eae6-8000-927a-010000010000_48232</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>index(
+  {
+    &quot;Assigned&quot;,
+    &quot;Accepted&quot;,
+    &quot;Completed&quot;,
+    &quot;Not Started&quot;,
+    &quot;Cancelled&quot;,
+    &quot;Paused&quot;,
+    &quot;Unattended&quot;,
+    &quot;Aborted&quot;,
+    &quot;Cancelled By Exception&quot;,
+    &quot;Submitted&quot;,
+    &quot;Running&quot;,
+    &quot;Error&quot;
+  },
+  /* Task status ids start with 0, so add one to reach the first index */
+  tointeger(ri!statusInt + 1),
+  &quot;Other&quot;
+)</definition>
+        <namedTypedValue>
+            <name>statusInt</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

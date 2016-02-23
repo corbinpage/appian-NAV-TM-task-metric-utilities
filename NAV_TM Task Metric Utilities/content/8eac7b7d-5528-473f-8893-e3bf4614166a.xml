@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_completedTasksReportFilterSection</name>
+        <uuid>8eac7b7d-5528-473f-8893-e3bf4614166a</uuid>
+        <description>A section containing a set of filters to apply to the Completed Tasks Report.</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!dataOutdated: false,
+  local!taskFilter,
+  local!durationDaysFilter,
+  local!ownersFilter,
+  local!assigneesFilter,
+  /*local!distinctTasks: a!queryEntity(*/
+  /*  entity: cons!NAV_TM_DATA_STORE_TASK_METRIC,*/
+  /*  query: a!query(*/
+  /*    aggregation: a!queryAggregation(*/
+  /*      aggregationColumns: {*/
+  /*        a!queryAggregationColumn(*/
+  /*          field: &quot;taskUuid&quot;,*/
+  /*          isGrouping: true*/
+  /*        ),*/
+  /*        a!queryAggregationColumn(*/
+  /*          field: &quot;taskName&quot;,*/
+  /*          isGrouping: true*/
+  /*        )*/
+  /*      }*/
+  /*    ),*/
+  /*    pagingInfo: a!pagingInfo(*/
+  /*      startIndex: 1,*/
+  /*      batchSize: -1,*/
+  /*      sort: a!sortInfo(*/
+  /*        field: &quot;taskUuid&quot;,*/
+  /*        ascending: true*/
+  /*      )*/
+  /*    )*/
+  /*  )*/
+  /*),*/
+  local!reportLogicalExpression: #&quot;d54f9a58-6a36-4078-ac20-0aeddf387b7c&quot;(
+    local!taskFilter,
+    local!ownersFilter,
+    local!durationDaysFilter,
+    local!assigneesFilter
+  ),
+  with(
+    {
+      #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+        label: &quot;Filters&quot;,
+        firstColumnContents: {
+          /*a!pickerFieldCustom(*/
+          /*  label: &quot;Select Tasks:&quot;,*/
+          /*  labelPosition: &quot;ABOVE&quot;,*/
+          /*  maxSelections: 10,*/
+          /*  suggestFunction: rule!NAV_TM_arrayPickerFilter(*/
+          /*    filter: _,*/
+          /*    labels: local!distinctTasks.data.taskName,*/
+          /*    identifiers: local!distinctTasks.data.taskUuid*/
+          /*  ),*/
+          /*  selectedLabels: if(*/
+          /*    rule!APN_isEmpty(local!taskFilter),*/
+          /*    null,*/
+          /*    apply(*/
+          /*      rule!NAV_TM_arrayPickerGetLabelForIdentifier(*/
+          /*        identifier: _, */
+          /*        labels: local!distinctTasks.data.taskName,*/
+          /*        identifiers: local!distinctTasks.data.taskUuid*/
+          /*      ),*/
+          /*      local!taskFilter*/
+          /*    )*/
+          /*  ),*/
+          /*  value: local!taskFilter,*/
+          /*  saveInto: {*/
+          /*    a!save(local!dataOutdated, true),*/
+          /*    a!save(local!taskFilter,union(save!value,save!value))*/
+          /*  }*/
+          /*),*/
+          #&quot;SYSTEM_SYSRULES_pickerFieldUsers&quot;(
+            label: &quot;Completed by:&quot;,
+            labelPosition: &quot;ABOVE&quot;,
+            maxSelections: 10,
+            groupFilter: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30722&quot;,
+            value: local!ownersFilter,
+            saveInto: {
+              a!save(local!dataOutdated, true),
+              a!save(local!ownersFilter,union(save!value,save!value))
+            }
+          ),
+          #&quot;SYSTEM_SYSRULES_pickerFieldUsersAndGroups&quot;(
+            label: &quot;Original Assignee(s):&quot;,
+            labelPosition: &quot;ABOVE&quot;,
+            maxSelections: 10,
+            groupFilter: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30722&quot;,
+            value: local!assigneesFilter,
+            saveInto: {
+              a!save(local!dataOutdated, true),
+              a!save(local!assigneesFilter,union(save!value,save!value))
+            }
+          )
+        },
+        secondColumnContents: {
+          #&quot;SYSTEM_SYSRULES_dropdownField&quot;(
+            label: &quot;Completed:&quot;,
+            labelPosition: &quot;ABOVE&quot;,
+            choiceLabels: {&quot;Last 3 Days&quot;, &quot;Last 7 Days&quot;, &quot;Last 30 Days&quot;, &quot;Last 365 Days&quot;},
+            placeholderLabel: &quot;All Time&quot;,
+            choiceValues: {3, 7, 30, 365},
+            value: local!durationDaysFilter,
+            saveInto: {
+              a!save(local!dataOutdated, true),
+              a!save(local!durationDaysFilter,save!value)
+            }
+          ),
+          #&quot;SYSTEM_SYSRULES_textField&quot;(value: &quot;&quot;, readOnly: true), /* Spacer */
+          #&quot;SYSTEM_SYSRULES_ButtonLayout&quot;(
+            primaryButtons: {
+              #&quot;SYSTEM_SYSRULES_ButtonWidget&quot;(
+                label: &quot;Filter&quot;,
+                style: if(local!dataOutdated,&quot;PRIMARY&quot;,&quot;NORMAL&quot;),
+                saveInto: {
+                  a!save(local!dataOutdated, false),
+                  a!save(local!reportLogicalExpression,
+                    #&quot;d54f9a58-6a36-4078-ac20-0aeddf387b7c&quot;(
+                      local!taskFilter,
+                      local!ownersFilter,
+                      local!durationDaysFilter,
+                      local!assigneesFilter
+                    )
+                  ),
+                  a!save(ri!reportLogicalExpression,local!reportLogicalExpression)
+                },
+                disabled: false
+              )
+            }
+          )
+        },
+        isCollapsible: true
+      )
+    }
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_generalTaskMetricsGridSection</name>
+        <uuid>7b103f18-7fa6-424f-90be-bcff147bfd80</uuid>
+        <description>A section containing a grid with general information on Task Metrics.</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>load(
+  local!durationDaysFilter,
+  local!ownersFilter,
+  local!pagingInfo: #&quot;SYSTEM_SYSRULES_pagingInfo&quot;(
+    startIndex: 1,
+    batchSize: 10,
+    sort: #&quot;SYSTEM_SYSRULES_sortInfo&quot;(
+      field: &quot;id&quot;,
+      ascending: true
+    )
+  ),
+  with(
+    local!datasubset: #&quot;SYSTEM_SYSRULES_queryEntity&quot;(
+      entity: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30797&quot;,
+      query: #&quot;SYSTEM_SYSRULES_query&quot;(
+        selection: #&quot;SYSTEM_SYSRULES_querySelection&quot;(
+          columns: {
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;id&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskId&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskDisplayName&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskOwner&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskAssignees&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskStartTime&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskStatusName&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;taskCompletionTime&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;completionDuration&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;completionDurationMinutes&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;lastUpdatedAt&quot;
+            ),
+            #&quot;SYSTEM_SYSRULES_queryColumn&quot;(
+              field: &quot;createdAt&quot;
+            )
+          }
+        ),
+        logicalExpression: ri!reportLogicalExpression,
+        pagingInfo: local!pagingInfo
+      )
+    ),
+    {
+      #&quot;SYSTEM_SYSRULES_sectionLayout&quot;(
+        label: &quot;Task Metrics Grid&quot;,
+        firstColumnContents: {
+          if(
+            or(
+              local!datasubset.totalCount &lt; 1,
+              #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(
+                local!datasubset.data
+              )
+            ),
+            {
+              #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+                labelPosition: &quot;ABOVE&quot;,
+                value: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30935&quot;,
+                readOnly: true
+              )
+            },
+            {
+              #&quot;SYSTEM_SYSRULES_gridField&quot;(
+                instructions: &quot;Displays the current set of task metrics in a grid.&quot;,
+                totalCount: local!datasubset.totalCount,
+                columns: {
+                  #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                    label: &quot;Task Display Name&quot;,
+                    field: &quot;taskDisplayName&quot;,
+                    data: index(
+                      local!datasubset.data,
+                      &quot;taskDisplayName&quot;,
+                      null
+                    )
+                  ),
+                  #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                    label: &quot;Completed By&quot;,
+                    field: &quot;taskOwner&quot;,
+                    data: apply(
+                      #&quot;0c91cb01-7278-4a58-a965-ccfaf368ae4f&quot;,
+                      index(
+                        local!datasubset.data,
+                        &quot;taskOwner&quot;,
+                        {}
+                      )
+                    )
+                  ),
+                  #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                    label: &quot;Original Assignee(s)&quot;,
+                    field: &quot;taskAssignees&quot;,
+                    data: apply(
+                      #&quot;0c91cb01-7278-4a58-a965-ccfaf368ae4f&quot;,
+                      index(
+                        local!datasubset.data,
+                        &quot;taskAssignees&quot;,
+                        {}
+                      )
+                    )
+                  ),
+                  #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                    label: &quot;Start Time&quot;,
+                    field: &quot;taskStartTime&quot;,
+                    data: apply(
+                      #&quot;080259f7-9689-47ef-aa0b-9feb66b33d82&quot;,
+                      merge(
+                        local!datasubset.data.taskCompletionTime,
+                        local!datasubset.data.completionDurationMinutes
+                      )
+                    )
+                  ),
+                  #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                    label: &quot;Completed At&quot;,
+                    field: &quot;taskCompletionTime&quot;,
+                    data: index(
+                      local!datasubset.data,
+                      &quot;taskCompletionTime&quot;,
+                      null
+                    )
+                  ),
+                  #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+                    label: &quot;Duration&quot;,
+                    field: &quot;completionDuration&quot;,
+                    data: index(
+                      local!datasubset.data,
+                      &quot;completionDuration&quot;,
+                      null
+                    )
+                  )
+                },
+                value: local!pagingInfo,
+                saveInto: local!pagingInfo
+              )
+            }
+          )
+        },
+        secondColumnContents: {},
+        isCollapsible: true
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>reportLogicalExpression</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>

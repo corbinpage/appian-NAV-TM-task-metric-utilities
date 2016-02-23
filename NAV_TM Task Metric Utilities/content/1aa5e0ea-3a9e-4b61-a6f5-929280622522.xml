@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_basicTaskMetricToggleGrid</name>
+        <uuid>1aa5e0ea-3a9e-4b61-a6f5-929280622522</uuid>
+        <description>Displays basic task metric information and has ability to toggle back to a chart.</description>
+        <parentUuid>_a-0000db61-5af0-8000-4594-010000010000_30739</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  ri!taskMetricDatasubset: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30963&quot;(
+    minBound: ri!minBound,
+    maxBound: ri!maxBound,
+    pagingInfo: ri!pagingInfo,
+    reportLogicalExpression: ri!reportLogicalExpression
+  ),
+  {
+    if(
+      or(
+        #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_950&quot;(
+          ri!taskMetricDatasubset
+        ),
+        ri!taskMetricDatasubset.totalCount &lt; 1,
+        #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(
+          ri!taskMetricDatasubset.data
+        )
+      ),
+      {
+        #&quot;SYSTEM_SYSRULES_paragraphField&quot;(
+          value: #&quot;_a-0000db61-5af0-8000-4594-010000010000_30935&quot;,
+          readOnly: true
+        )
+      },
+      {
+        #&quot;SYSTEM_SYSRULES_gridField&quot;(
+          label: ri!chartLabel,
+          labelPosition: &quot;ABOVE&quot;,
+          instructions: ri!chartInstructions,
+          totalCount: ri!taskMetricDatasubset.totalCount,
+          columns: {
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label: &quot;Task Name&quot;,
+              field: &quot;taskDisplayName&quot;,
+              data: index(
+                ri!taskMetricDatasubset.data,
+                &quot;taskDisplayName&quot;,
+                {}
+              )
+            ),
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label: &quot;Completed by&quot;,
+              field: &quot;taskOwner&quot;,
+              data: apply(
+                #&quot;0c91cb01-7278-4a58-a965-ccfaf368ae4f&quot;,
+                index(
+                  ri!taskMetricDatasubset.data,
+                  &quot;taskOwner&quot;,
+                  {}
+                )
+              )
+            ),
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label: &quot;Start Time&quot;,
+              field: &quot;taskStartTime&quot;,
+              data: apply(
+                #&quot;080259f7-9689-47ef-aa0b-9feb66b33d82&quot;,
+                merge(
+                  ri!taskMetricDatasubset.data.taskCompletionTime,
+                  ri!taskMetricDatasubset.data.completionDurationMinutes
+                )
+              )
+            ),
+            #&quot;SYSTEM_SYSRULES_gridTextColumn&quot;(
+              label: &quot;Completed At&quot;,
+              field: &quot;taskCompletionTime&quot;,
+              data: index(
+                ri!taskMetricDatasubset.data,
+                &quot;taskCompletionTime&quot;,
+                {}
+              )
+            )
+          },
+          identifiers: ri!taskMetricDatasubset.identifiers,
+          value: ri!pagingInfo,
+          saveInto: ri!pagingInfo,
+          selection: false()
+        )
+      }
+    ),
+    #&quot;SYSTEM_SYSRULES_linkField&quot;(
+      links: {
+        #&quot;SYSTEM_SYSRULES_dynamicLink&quot;(
+          label: &quot;&lt;&lt; Back&quot;,
+          value: false,
+          saveInto: ri!showGrid
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>taskMetricDatasubset</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showGrid</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>chartLabel</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>chartInstructions</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reportLogicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>minBound</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>maxBound</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+</contentHaul>

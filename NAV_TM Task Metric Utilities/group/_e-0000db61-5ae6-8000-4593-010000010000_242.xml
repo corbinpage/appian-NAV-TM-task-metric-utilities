@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<groupHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <group>
+        <name>NAV_TM All Groups and Users</name>
+        <securityMap>SECURITYMAP_PUBLIC</securityMap>
+        <uuid>_e-0000db61-5ae6-8000-4593-010000010000_242</uuid>
+        <groupTypeUuid>SYSTEM_GROUP_TYPE_CUSTOM</groupTypeUuid>
+        <description>All users that will be included in the NAV_TM application reports.</description>
+        <delegatedCreation>false</delegatedCreation>
+        <memberPolicy>MEMBERPOLICY_CLOSED</memberPolicy>
+        <viewingPolicy>VIEWINGPOLICY_LOW</viewingPolicy>
+        <attributes/>
+    </group>
+    <members>
+        <users/>
+        <groups/>
+    </members>
+    <admins>
+        <users/>
+        <groups>
+            <groupUuid>_e-0000db61-5ae6-8000-4593-010000010000_243</groupUuid>
+        </groups>
+    </admins>
+    <ruleSet>
+        <expressions>
+            <entityTypeName>u</entityTypeName>
+            <conditions>
+                <attributeName>username</attributeName>
+                <operatorId>6</operatorId>
+                <value>#$%</value>
+            </conditions>
+        </expressions>
+        <expressions>
+            <entityTypeUuid>SYSTEM_GROUP_TYPE_CUSTOM</entityTypeUuid>
+            <entityTypeName>Custom</entityTypeName>
+            <conditions>
+                <attributeName>gn</attributeName>
+                <operatorId>6</operatorId>
+                <value>#$%</value>
+            </conditions>
+        </expressions>
+    </ruleSet>
+</groupHaul>

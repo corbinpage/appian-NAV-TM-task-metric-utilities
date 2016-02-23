@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <rule>
+        <name>NAV_TM_createTaskMetricLogicalExpression</name>
+        <uuid>d54f9a58-6a36-4078-ac20-0aeddf387b7c</uuid>
+        <description>Given the filters, this rule generates the correct logicalExpression object.</description>
+        <parentUuid>_a-0000db6c-eae6-8000-927a-010000010000_48231</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(
+  operator: &quot;AND&quot;,
+  logicalExpressions: if(
+    #&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(ri!assigneesFilter),{},{
+      #&quot;SYSTEM_SYSRULES_queryLogicalExpression&quot;(
+        operator: &quot;OR&quot;,
+          filters: {
+            #&quot;SYSTEM_SYSRULES_applyComponents&quot;(
+              function: #&quot;_a-0000db61-5af0-8000-4594-010000010000_31271&quot;,
+              array: apply(fn!tostring,ri!assigneesFilter)
+            )
+          }
+      )
+    }
+  ),
+  filters: {
+    #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+      field: &quot;ignoreInd&quot;,
+      operator: &quot;=&quot;,
+      value: false
+    ),
+    #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+      field: &quot;taskStatus&quot;,
+      operator: &quot;=&quot;,
+      value: 2 
+    ),
+    #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+      field: &quot;taskStartTime&quot;,
+      operator: &quot;&gt;=&quot;,
+      value: todatetime(today()-if(#&quot;_a-0000d62a-67b3-8000-da6f-010000010000_950&quot;(ri!durationDaysFilter),10000,tointeger(ri!durationDaysFilter)))
+    ),
+    if(#&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(ri!taskFilter),{},
+      #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+        field: &quot;taskUuid&quot;,
+        operator: &quot;in&quot;,
+        value: apply(fn!tostring,ri!taskFilter)
+      )
+    ),
+    if(#&quot;_a-0000d62a-67b3-8000-da6f-010000010000_951&quot;(ri!ownersFilter),{},
+      #&quot;SYSTEM_SYSRULES_queryFilter&quot;(
+        field: &quot;taskOwner&quot;,
+        operator: &quot;in&quot;,
+        value: apply(fn!tostring,ri!ownersFilter)
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>taskFilter</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>ownersFilter</name>
+            <type>
+                <name>User?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>durationDaysFilter</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>assigneesFilter</name>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role allowForAll="false" inherit="true" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="true" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role allowForAll="false" inherit="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>taskFilter</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>ownersFilter</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>durationDaysFilter</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:nameRef>assigneesFilter</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+            </el>
+        </value>
+    </typedValue>
+</contentHaul>
